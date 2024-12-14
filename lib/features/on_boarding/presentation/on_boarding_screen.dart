@@ -31,6 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(height: MediaQuerySize(context).percent3Height),
           pageViewBuilder(context),
           // Sayfa göstergesi (noktalar)
           smoothPageIndicator(context),
@@ -52,10 +53,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onPressed: () {
               Navigator.pushReplacementNamed(context, RouteNames.login);
             },
-            child: Text(TrStrings.skip),
             style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.secondary,
                 foregroundColor: colorScheme.primary),
+            child: const Text(TrStrings.skip),
           ),
           iconButton(context, colorScheme),
         ],
