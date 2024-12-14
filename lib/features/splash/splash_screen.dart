@@ -54,14 +54,14 @@ class _SplashScreenState extends State<SplashScreen>
       setState(() {
         _textColorAnimation1 = ColorTween(
           begin: colorScheme.onSurface,
-          end: colorScheme.onSurface.withOpacity(1),
+          end: colorScheme.onSurface.withValues(alpha: 255),
         ).animate(
           CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
         );
 
         _textColorAnimation2 = ColorTween(
           begin: colorScheme.error,
-          end: colorScheme.error.withOpacity(1),
+          end: colorScheme.error.withValues(alpha: 255),
         ).animate(
           CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
         );
@@ -87,31 +87,28 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Hero(
-      tag: "splash",
-      child: Scaffold(
-        backgroundColor: CustomColorScheme.lightColorScheme.secondaryText,
-        body: Center(
-          child: Padding(
-            padding: AppPaddings.defaultPadding,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSlideTransition(
-                  textTheme,
-                  _animationLeft,
-                  TrStrings.splashTitleText1,
-                  _textColorAnimation1.value ?? Colors.black,
-                ),
-                const SizedBox(width: 8),
-                _buildSlideTransition(
-                  textTheme,
-                  _animationRight,
-                  TrStrings.splashTitleText2,
-                  _textColorAnimation2.value ?? Colors.black,
-                ),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: CustomColorScheme.lightColorScheme.secondaryText,
+      body: Center(
+        child: Padding(
+          padding: AppPaddings.allDefaultPadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildSlideTransition(
+                textTheme,
+                _animationLeft,
+                TrStrings.splashTitleText1,
+                _textColorAnimation1.value ?? Colors.black,
+              ),
+              const SizedBox(width: 8),
+              _buildSlideTransition(
+                textTheme,
+                _animationRight,
+                TrStrings.splashTitleText2,
+                _textColorAnimation2.value ?? Colors.black,
+              ),
+            ],
           ),
         ),
       ),
