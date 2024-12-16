@@ -17,6 +17,8 @@ class TrStrings {
   static const String describe4 =
       'Tüm verilerinizi güvenle yedekleyin ve ihtiyaç duyduğunuzda geri yükleyin.';
   static const String skip = 'Atla';
+
+  //Login, Register and ForgetPassword Screen
   static const String signIn = "Giriş Yap";
   static const String signUp = "Kayıt Ol";
   static const String forgetPassword = "Şifremi Unuttum?";
@@ -44,4 +46,7 @@ class TrStrings {
       "Lütfen e-postanızı girin ve hesabınıza geri dönmeniz için bir bağlantı göndereceğiz";
   static const String forgetPasswordScreenButtonText = "Devam Et";
   static const String fogetPasswordScreenNoAccountText = "Hesabınız yok mu? ";
+
+  //Home Screen
+  static const String smallSplashTitleText1 = 'Sulscan';
 }

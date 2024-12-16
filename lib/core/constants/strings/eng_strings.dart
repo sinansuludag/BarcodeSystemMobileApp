@@ -17,6 +17,8 @@ class EngStrings {
   static const String describe4 =
       'Safely backup all your data and restore it whenever you need it.';
   static const String skip = 'Skip';
+
+  //Login,Register and ForgetPassword Screen
   static const String signIn = "Sign In";
   static const String signUp = "Sign Up";
   static const String forgetPassword = "Forgot Password?";
@@ -45,4 +47,7 @@ class EngStrings {
   static const String forgetPasswordScreenButtonText = "Continue";
   static const String fogetPasswordScreenNoAccountText =
       "Don’t have an account? ";
+
+  //Home Screen
+  static const String smallSplashTitleText1 = 'Sulscan';
 }
