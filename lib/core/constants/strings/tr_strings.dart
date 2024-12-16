@@ -39,4 +39,9 @@ class TrStrings {
   static const String invalidEmail = "Lütfen geçerli bir email adresi giriniz";
   static const String invalidPhoneNumber =
       "Lütfen geçerli bir telefon numarası giriniz";
+  static const String forgetPasswordScreenTitle = "Şifremi Unuttum";
+  static const String forgetPasswordScreenText =
+      "Lütfen e-postanızı girin ve hesabınıza geri dönmeniz için bir bağlantı göndereceğiz";
+  static const String forgetPasswordScreenButtonText = "Devam Et";
+  static const String fogetPasswordScreenNoAccountText = "Hesabınız yok mu? ";
 }

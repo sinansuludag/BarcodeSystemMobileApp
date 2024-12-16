@@ -124,10 +124,11 @@ mixin RegisterScreenMixin {
         Navigator.pushNamed(context, RouteNames.login);
       },
       style: ElevatedButton.styleFrom(
-        elevation: 0,
+        elevation: 5,
         backgroundColor: colorScheme.secondary,
         foregroundColor: colorScheme.onSecondary,
-        minimumSize: Size(MediaQuerySize(context).percent60Width, 36),
+        minimumSize: Size(MediaQuerySize(context).percent60Width,
+            MediaQuerySize(context).percent10Width),
         shape: const StadiumBorder(),
       ),
       child: const Text(TrStrings.signIn),
@@ -147,10 +148,11 @@ mixin RegisterScreenMixin {
         }
       },
       style: ElevatedButton.styleFrom(
-        elevation: 0,
+        elevation: 5,
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
-        minimumSize: Size(MediaQuerySize(context).percent60Width, 48),
+        minimumSize: Size(MediaQuerySize(context).percent60Width,
+            MediaQuerySize(context).percent12Width),
         shape: const StadiumBorder(),
       ),
       child: const Text(TrStrings.signUp),

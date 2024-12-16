@@ -39,4 +39,10 @@ class EngStrings {
       "Password must be at 6 least characters";
   static const String invalidEmail = "Please enter a valid email address";
   static const String invalidPhoneNumber = "Please enter a valid phone number";
+  static const String forgetPasswordScreenTitle = "Forget Password";
+  static const String forgetPasswordScreenText =
+      "Please enter your email and we will send \nyou a link to return to your account";
+  static const String forgetPasswordScreenButtonText = "Continue";
+  static const String fogetPasswordScreenNoAccountText =
+      "Don’t have an account? ";
 }

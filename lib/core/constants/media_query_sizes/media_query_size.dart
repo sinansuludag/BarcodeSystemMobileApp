@@ -55,6 +55,18 @@ class MediaQuerySize {
   /// size-> %10
   double get percent10Height => screenHeight * 0.10;
 
+  /// size-> %12
+  double get percent12Width => screenWidth * 0.12;
+
+  /// size-> %10
+  double get percent12Height => screenHeight * 0.12;
+
+  /// size-> %15
+  double get percent15Width => screenWidth * 0.15;
+
+  /// size-> %10
+  double get percent15Height => screenHeight * 0.15;
+
   /// size-> %20
   double get percent20Width => screenWidth * 0.20;
 
@@ -90,4 +102,16 @@ class MediaQuerySize {
 
   /// size-> %60
   double get percent60Height => screenHeight * 0.60;
+
+  /// size-> %70
+  double get percent70Width => screenWidth * 0.70;
+
+  /// size-> %60
+  double get percent70Height => screenHeight * 0.70;
+
+  /// size-> %80
+  double get percent80Width => screenWidth * 0.80;
+
+  /// size-> %60
+  double get percent80Height => screenHeight * 0.80;
 }

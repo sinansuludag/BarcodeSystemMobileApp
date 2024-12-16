@@ -1,4 +1,5 @@
 import 'package:barcode_system_app/core/routes/route_names.dart';
+import 'package:barcode_system_app/features/auth/presentation/forget_password_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/login_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/register_screen.dart';
 import 'package:barcode_system_app/features/home/home_screen.dart';
@@ -20,6 +21,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => OnboardingScreen());
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case RouteNames.forgetPassword:
+        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }

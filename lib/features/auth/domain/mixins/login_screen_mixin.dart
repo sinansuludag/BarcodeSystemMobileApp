@@ -111,10 +111,11 @@ mixin LoginScreenMixin {
         }
       },
       style: ElevatedButton.styleFrom(
-        elevation: 0,
+        elevation: 5,
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
-        minimumSize: Size(MediaQuerySize(context).percent60Width, 48),
+        minimumSize: Size(MediaQuerySize(context).percent60Width,
+            MediaQuerySize(context).percent12Width),
         shape: const StadiumBorder(),
       ),
       child: const Text(TrStrings.signIn),
@@ -130,10 +131,11 @@ mixin LoginScreenMixin {
         Navigator.pushNamed(context, RouteNames.register);
       },
       style: ElevatedButton.styleFrom(
-        elevation: 0,
+        elevation: 5,
         backgroundColor: colorScheme.secondary,
         foregroundColor: colorScheme.onSecondary,
-        minimumSize: Size(MediaQuerySize(context).percent60Width, 36),
+        minimumSize: Size(MediaQuerySize(context).percent60Width,
+            MediaQuerySize(context).percent10Width),
         shape: const StadiumBorder(),
       ),
       child: const Text(TrStrings.signUp),
@@ -145,15 +147,13 @@ mixin LoginScreenMixin {
     ColorScheme colorScheme,
   ) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, RouteNames.forgetPassword);
+      },
       child: Text(
         TrStrings.forgetPassword,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.color
-                  ?.withAlpha((colorScheme.onSecondary.a * 0.8).toInt()),
+              color: colorScheme.onSecondary.withAlpha((255 * 0.8).toInt()),
             ),
       ),
     );
