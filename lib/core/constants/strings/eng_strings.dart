@@ -16,5 +16,27 @@ class EngStrings {
       'Easily manage your stocks and receive alerts for products at critical levels.';
   static const String describe4 =
       'Safely backup all your data and restore it whenever you need it.';
-  static const String skip = 'skip';
+  static const String skip = 'Skip';
+  static const String signIn = "Sign In";
+  static const String signUp = "Sign Up";
+  static const String forgetPassword = "Forgot Password?";
+  static const String requiredEmail = "Email is required";
+  static const String requiredPassword = "Password is required";
+  static const String requiredName = "Name is required";
+  static const String requiredSurname = "Surname is required";
+  static const String requiredPhoneNumber = "Phone number is required";
+  static const String labelEmail = "Email";
+  static const String hintTextEmail = "Enter the email";
+  static const String labelPassword = "Password";
+  static const String hintTextPassword = "Enter the password";
+  static const String labelName = "Name";
+  static const String hintTextName = "Enter the name";
+  static const String labelSurname = "Surname";
+  static const String hintTextSurname = "Enter the surname";
+  static const String labelPhone = "Phone Number";
+  static const String hintTextPhone = "Enter the phone number";
+  static const String warningPasswordLength =
+      "Password must be at 6 least characters";
+  static const String invalidEmail = "Please enter a valid email address";
+  static const String invalidPhoneNumber = "Please enter a valid phone number";
 }

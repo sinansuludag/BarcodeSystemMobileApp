@@ -16,5 +16,27 @@ class TrStrings {
       'Stoklarınızı kolayca yönetin, kritik seviyedeki ürünler için uyarılar alın.';
   static const String describe4 =
       'Tüm verilerinizi güvenle yedekleyin ve ihtiyaç duyduğunuzda geri yükleyin.';
-  static const String skip = 'atla';
+  static const String skip = 'Atla';
+  static const String signIn = "Giriş Yap";
+  static const String signUp = "Kayıt Ol";
+  static const String forgetPassword = "Şifremi Unuttum?";
+  static const String requiredEmail = "Email zorunlu";
+  static const String requiredPhoneNumber = "Telefon numarası zorunlu";
+  static const String requiredPassword = "Şifre zorunlu";
+  static const String requiredName = "Ad zorunlu";
+  static const String requiredSurname = "Soyadı zorunlu";
+  static const String labelEmail = "Email";
+  static const String hintTextEmail = "Emailinizi giriniz";
+  static const String labelPassword = "Şifre";
+  static const String hintTextPassword = "Şifrenizi giriniz";
+  static const String labelName = "Adı";
+  static const String hintTextName = "Adınızı giriniz";
+  static const String labelSurname = "Soyadı";
+  static const String hintTextSurname = "Soyadınızı giriniz";
+  static const String labelPhone = "Telefon No";
+  static const String hintTextPhone = "Telefon numaranızı giriniz";
+  static const String warningPasswordLength = "Şifre en az 6 karakterli olmalı";
+  static const String invalidEmail = "Lütfen geçerli bir email adresi giriniz";
+  static const String invalidPhoneNumber =
+      "Lütfen geçerli bir telefon numarası giriniz";
 }

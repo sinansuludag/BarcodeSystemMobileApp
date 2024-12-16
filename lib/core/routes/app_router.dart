@@ -1,6 +1,7 @@
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/features/auth/presentation/login_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/register_screen.dart';
+import 'package:barcode_system_app/features/home/home_screen.dart';
 import 'package:barcode_system_app/features/on_boarding/presentation/on_boarding_screen.dart';
 import 'package:barcode_system_app/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case RouteNames.onBoarding:
         return MaterialPageRoute(builder: (_) => OnboardingScreen());
+      case RouteNames.home:
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
