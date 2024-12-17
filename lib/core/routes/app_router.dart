@@ -3,6 +3,7 @@ import 'package:barcode_system_app/features/auth/presentation/forget_password_sc
 import 'package:barcode_system_app/features/auth/presentation/login_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/register_screen.dart';
 import 'package:barcode_system_app/features/home/home_screen.dart';
+import 'package:barcode_system_app/features/makeSale/presentation/make_sale_screen.dart';
 import 'package:barcode_system_app/features/on_boarding/presentation/on_boarding_screen.dart';
 import 'package:barcode_system_app/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,9 @@ class AppRouter {
       case RouteNames.onBoarding:
         return MaterialPageRoute(builder: (_) => OnboardingScreen());
       case RouteNames.home:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case RouteNames.makeSale:
+        return MaterialPageRoute(builder: (_) => const MakeSaleScreen());
       case RouteNames.forgetPassword:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       default:
