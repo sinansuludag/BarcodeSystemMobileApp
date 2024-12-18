@@ -23,7 +23,7 @@ class AppRouter {
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case RouteNames.makeSale:
-        return MaterialPageRoute(builder: (_) => const MakeSaleScreen());
+        return MaterialPageRoute(builder: (_) => MakeSaleScreen());
       case RouteNames.forgetPassword:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       default:

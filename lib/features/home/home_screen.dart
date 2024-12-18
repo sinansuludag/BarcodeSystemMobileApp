@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                 // Kullanıcı Bilgisi
                 SizedBox(height: MediaQuerySize(context).percent2Height),
                 Text(
-                  "Sinan Suludağ",
+                  "Suludağ YAZILIM",
                   style: textTheme.headlineSmall,
                 ),
                 Text(

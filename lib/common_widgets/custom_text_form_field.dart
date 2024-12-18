@@ -7,6 +7,7 @@ class CustomTextFormField extends StatefulWidget {
   final String hintText;
   final Icon? suffixIcon;
   final Widget? prefixIcon;
+  final InputBorder? border;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
@@ -18,6 +19,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.labelText,
     required this.hintText,
     this.suffixIcon,
+    this.border,
     this.prefixIcon,
     this.validator,
     required this.keyboardType,
@@ -65,11 +67,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                     },
                   )
                 : null),
-        border: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: CustomColorScheme.lightColorScheme.borders),
-          borderRadius: AppBorderRadius.highBorderRadius,
-        ),
+        border: widget.border ??
+            OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: CustomColorScheme.lightColorScheme.borders),
+              borderRadius: AppBorderRadius.highBorderRadius,
+            ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppBorderRadius.highBorderRadius,
           borderSide:

@@ -28,7 +28,7 @@ class CustomColorScheme extends ColorScheme {
           primary: primaryButtonBackground, // Ana buton arka plan rengi
           onPrimary: primaryButtonTextColor, // Ana buton metin rengi
           secondary: secondaryButtonBackground, // İkinci buton arka plan rengi
-          onSecondary: secondaryButtonTextColor, // İkinci buton metin rengi
+          onSecondary: secondaryTextColor, // İkinci buton metin rengi
           surface: backgroundColor, // Arka plan rengi
           onSurface: mainTextColor, // Ana metin rengi
           error: errorColor, // Hata mesajı rengi
