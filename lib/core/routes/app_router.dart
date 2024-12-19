@@ -1,4 +1,5 @@
 import 'package:barcode_system_app/core/routes/route_names.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/add_update_product_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/forget_password_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/login_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/register_screen.dart';
@@ -18,14 +19,17 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case RouteNames.register:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
+      case RouteNames.forgetPassword:
+        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       case RouteNames.onBoarding:
         return MaterialPageRoute(builder: (_) => OnboardingScreen());
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case RouteNames.makeSale:
         return MaterialPageRoute(builder: (_) => MakeSaleScreen());
-      case RouteNames.forgetPassword:
-        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+      case RouteNames.addUpdateProduct:
+        return MaterialPageRoute(builder: (_) => AddUpdateProductScreen());
+
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }

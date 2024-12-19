@@ -7,4 +7,5 @@ class RouteNames {
   static const String home = '/home';
   static const String forgetPassword = '/forgetPassword';
   static const String makeSale = '/makeSale';
+  static const String addUpdateProduct = '/addUpdateProduct';
 }

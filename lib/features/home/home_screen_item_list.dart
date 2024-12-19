@@ -12,7 +12,7 @@ final List<Map<String, dynamic>> menuItems = [
   {
     'title': 'Ürün Ekle / Güncelle',
     'icon': Icons.add_circle_outline,
-    'route': '/add-update'
+    'route': RouteNames.addUpdateProduct
   },
   {'title': 'Müşteriler', 'icon': Icons.people, 'route': '/customers'},
   {'title': 'Firmalar', 'icon': Icons.business, 'route': '/companies'},
