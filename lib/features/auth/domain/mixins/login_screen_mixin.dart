@@ -5,6 +5,7 @@ import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/extensions/assets_path_extension.dart';
+import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/features/auth/domain/validator/email_validator.dart';
 import 'package:barcode_system_app/features/auth/domain/validator/password_validator.dart';
@@ -20,48 +21,44 @@ mixin LoginScreenMixin {
     passwordController.dispose();
   }
 
-  Widget loginTitleText(
-      TextTheme textTheme, ColorScheme colorScheme, BuildContext context) {
+  Widget loginTitleText(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         titleText(
-          textTheme,
-          colorScheme,
+          context,
           TrStrings.splashTitleText1,
-          colorScheme.onSurface,
+          context.colorScheme.onSurface,
         ),
         SizedBox(width: MediaQuerySize(context).percent5Width),
         titleText(
-          textTheme,
-          colorScheme,
+          context,
           TrStrings.splashTitleText2,
-          colorScheme.error,
+          context.colorScheme.error,
         ),
       ],
     );
   }
 
   Text titleText(
-    TextTheme textTheme,
-    ColorScheme colorScheme,
+    BuildContext context,
     String text,
     Color color,
   ) {
     return Text(
       text,
-      style: textTheme.headlineLarge?.copyWith(
+      style: context.textTheme.headlineLarge?.copyWith(
         color: color,
         fontWeight: FontWeight.bold,
       ),
     );
   }
 
-  CustomTextFormField emailTextFormField(ColorScheme colorScheme) {
+  CustomTextFormField emailTextFormField(BuildContext context) {
     return CustomTextFormField(
       controller: emailController,
       prefixIcon:
-          prefixIconDecoration(colorScheme, const Icon(Icons.email_outlined)),
+          prefixIconDecoration(context, const Icon(Icons.email_outlined)),
       labelText: TrStrings.labelEmail,
       hintText: TrStrings.hintTextEmail,
       keyboardType: TextInputType.emailAddress,
@@ -70,22 +67,22 @@ mixin LoginScreenMixin {
     );
   }
 
-  Padding prefixIconDecoration(ColorScheme colorScheme, Icon icon) {
+  Padding prefixIconDecoration(BuildContext context, Icon icon) {
     return Padding(
         padding: AppPaddings.allLowPadding,
         child: Container(
           decoration: BoxDecoration(
-            color: colorScheme.secondary,
+            color: context.colorScheme.secondary,
             borderRadius: AppBorderRadius.lowBorderRadius,
           ),
           child: icon,
         ));
   }
 
-  CustomTextFormField passwordTextFormField(ColorScheme colorScheme) {
+  CustomTextFormField passwordTextFormField(BuildContext context) {
     return CustomTextFormField(
       controller: passwordController,
-      prefixIcon: prefixIconDecoration(colorScheme, const Icon(Icons.key)),
+      prefixIcon: prefixIconDecoration(context, const Icon(Icons.key)),
       labelText: TrStrings.labelPassword,
       hintText: TrStrings.labelPassword,
       keyboardType: TextInputType.text,
@@ -96,7 +93,6 @@ mixin LoginScreenMixin {
   }
 
   ElevatedButton signInElevatedButton(
-    ColorScheme colorScheme,
     BuildContext context,
   ) {
     return ElevatedButton(
@@ -112,8 +108,8 @@ mixin LoginScreenMixin {
       },
       style: ElevatedButton.styleFrom(
         elevation: 5,
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
+        backgroundColor: context.colorScheme.primary,
+        foregroundColor: context.colorScheme.onPrimary,
         minimumSize: Size(MediaQuerySize(context).percent60Width,
             MediaQuerySize(context).percent12Width),
         shape: const StadiumBorder(),
@@ -123,7 +119,6 @@ mixin LoginScreenMixin {
   }
 
   ElevatedButton signUpElevatedButton(
-    ColorScheme colorScheme,
     BuildContext context,
   ) {
     return ElevatedButton(
@@ -132,8 +127,8 @@ mixin LoginScreenMixin {
       },
       style: ElevatedButton.styleFrom(
         elevation: 5,
-        backgroundColor: colorScheme.secondary,
-        foregroundColor: colorScheme.onSecondary,
+        backgroundColor: context.colorScheme.secondary,
+        foregroundColor: context.colorScheme.primary,
         minimumSize: Size(MediaQuerySize(context).percent60Width,
             MediaQuerySize(context).percent10Width),
         shape: const StadiumBorder(),
@@ -144,7 +139,6 @@ mixin LoginScreenMixin {
 
   TextButton forgetPasswordTextButton(
     BuildContext context,
-    ColorScheme colorScheme,
   ) {
     return TextButton(
       onPressed: () {
@@ -153,7 +147,7 @@ mixin LoginScreenMixin {
       child: Text(
         TrStrings.forgetPassword,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: colorScheme.onSecondary.withAlpha((255 * 0.8).toInt()),
+              color: context.colorScheme.onSecondary,
             ),
       ),
     );

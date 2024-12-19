@@ -19,8 +19,6 @@ class _LoginScreenState extends State<LoginScreen> with LoginScreenMixin {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       resizeToAvoidBottomInset:
           false, // Klavye açıldığında ekranın boyutunun değiştirilmesini engeller
@@ -40,25 +38,25 @@ class _LoginScreenState extends State<LoginScreen> with LoginScreenMixin {
                 children: [
                   SizedBox(
                     height: MediaQuerySize(context).percent35Height,
-                    child: loginTitleText(textTheme, colorScheme, context),
+                    child: loginTitleText(context),
                   ),
-                  emailTextFormField(colorScheme),
+                  emailTextFormField(context),
                   SizedBox(
                     height: MediaQuerySize(context).percent2Height,
                   ),
-                  passwordTextFormField(colorScheme),
+                  passwordTextFormField(context),
                   SizedBox(
                     height: MediaQuerySize(context).percent3Height,
                   ),
-                  signInElevatedButton(colorScheme, context),
+                  signInElevatedButton(context),
                   SizedBox(
                     height: MediaQuerySize(context).percent1Height,
                   ),
-                  signUpElevatedButton(colorScheme, context),
+                  signUpElevatedButton(context),
                   SizedBox(
                     height: MediaQuerySize(context).percent2Height,
                   ),
-                  forgetPasswordTextButton(context, colorScheme),
+                  forgetPasswordTextButton(context),
                   SizedBox(
                     height: MediaQuerySize(context).percent1Height,
                   ),

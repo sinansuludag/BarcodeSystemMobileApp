@@ -1,6 +1,7 @@
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
+import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/features/auth/domain/mixins/login_screen_mixin.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +17,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
     with LoginScreenMixin {
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      backgroundColor: context.colorScheme.surface,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: colorScheme.surface,
+        backgroundColor: context.colorScheme.surface,
         title: Text(
           TrStrings.forgetPasswordScreenTitle,
-          style: TextStyle(color: colorScheme.onSecondary),
+          style: TextStyle(color: context.colorScheme.onSecondary),
         ),
       ),
       body: SizedBox(
@@ -41,20 +40,21 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
                   SizedBox(height: MediaQuerySize(context).percent4Height),
                   Text(
                     TrStrings.forgetPasswordScreenTitle,
-                    style: textTheme.headlineMedium,
+                    style: context.textTheme.headlineMedium
+                        ?.copyWith(color: context.colorScheme.onSurface),
                   ),
                   SizedBox(height: MediaQuerySize(context).percent2Height),
                   Text(
                     TrStrings.forgetPasswordScreenText,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: colorScheme.onSecondary),
+                    style: TextStyle(color: context.colorScheme.onSecondary),
                   ),
                   SizedBox(height: MediaQuerySize(context).percent10Height),
-                  emailTextFormField(colorScheme),
+                  emailTextFormField(context),
                   SizedBox(height: MediaQuerySize(context).percent10Height),
-                  signInElevatedButton(colorScheme, context),
+                  signInElevatedButton(context),
                   SizedBox(height: MediaQuerySize(context).percent10Height),
-                  NoAccountTextButton(colorScheme)
+                  noAccountTextButton(context),
                 ],
               ),
             ),
@@ -64,14 +64,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
     );
   }
 
-  Widget NoAccountTextButton(ColorScheme colorScheme) {
+  Widget noAccountTextButton(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          TrStrings.fogetPasswordScreenNoAccountText,
-          style: TextStyle(color: colorScheme.onSecondary.withAlpha(180)),
-        ),
+        Text(TrStrings.fogetPasswordScreenNoAccountText,
+            style: context.textTheme.bodyMedium
+                ?.copyWith(color: context.colorScheme.onSecondary)),
         GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, RouteNames.register);
@@ -79,36 +78,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
           child: Text(
             TrStrings.signUp,
             style: TextStyle(
-              color: colorScheme.error,
+              color: context.colorScheme.error,
             ),
           ),
         ),
       ],
-    );
-  }
-
-  ElevatedButton signInElevatedButton(
-    ColorScheme colorScheme,
-    BuildContext context,
-  ) {
-    return ElevatedButton(
-      onPressed: () {
-        if (formKey.currentState!.validate()) {
-          FocusScope.of(context).unfocus();
-          print('Email: ${emailController.text}');
-          emailController.clear();
-          Navigator.pushNamed(context, RouteNames.login);
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        elevation: 5,
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        minimumSize: Size(MediaQuerySize(context).percent80Width,
-            MediaQuerySize(context).percent12Width),
-        shape: const StadiumBorder(),
-      ),
-      child: const Text(TrStrings.forgetPasswordScreenButtonText),
     );
   }
 }

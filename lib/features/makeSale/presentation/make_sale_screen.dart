@@ -1,4 +1,5 @@
 import 'package:barcode_system_app/core/constants/colors/color_darken.dart';
+import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/features/makeSale/data/satis_list.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_system_app/common_widgets/custom_text_form_field.dart';
@@ -30,10 +31,8 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: appBar(colorScheme, textTheme),
+      appBar: appBar(context),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -47,15 +46,15 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
                 children: [
                   Container(
                     padding: AppPaddings.allLowPadding,
-                    child: topInformationRow(colorScheme),
+                    child: topInformationRow(context),
                   ),
-                  readingBarcodeRow(context, colorScheme),
-                  salesListViewBuilder(context, colorScheme, textTheme),
+                  readingBarcodeRow(context),
+                  salesListViewBuilder(context),
                   Container(
                     padding: AppPaddings.allLowPadding,
                     child: Column(
                       children: [
-                        customSaleInformation(colorScheme, textTheme),
+                        customSaleInformation(context),
                         SizedBox(
                           height: MediaQuerySize(context).percent1Height,
                         ),
@@ -64,7 +63,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
                       ],
                     ),
                   ),
-                  choosePurchaseMethod(colorScheme, textTheme),
+                  choosePurchaseMethod(context),
                 ],
               ),
             ),
@@ -74,14 +73,14 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
     );
   }
 
-  Widget choosePurchaseMethod(ColorScheme colorScheme, TextTheme textTheme) {
+  Widget choosePurchaseMethod(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        buildPaymentButton("Nakit", colorScheme, textTheme),
-        buildPaymentButton("Pos", colorScheme, textTheme),
-        buildPaymentButton("Açık Hesap", colorScheme, textTheme),
-        buildPaymentButton("Parçalı", colorScheme, textTheme),
+        buildPaymentButton("Nakit", context),
+        buildPaymentButton("Pos", context),
+        buildPaymentButton("Açık Hesap", context),
+        buildPaymentButton("Parçalı", context),
       ],
     );
   }
@@ -112,8 +111,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
     );
   }
 
-  Container customSaleInformation(
-      ColorScheme colorScheme, TextTheme textTheme) {
+  Container customSaleInformation(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: CustomColorScheme.lightColorScheme.borders),
@@ -125,8 +123,8 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
           leading: const Icon(Icons.person_outline),
           title: Text(
             "Müşterisiz satış",
-            style: textTheme.bodyLarge?.copyWith(
-              color: darkenColor(colorScheme.onSurface, 1),
+            style: context.textTheme.bodyLarge?.copyWith(
+              color: darkenColor(context.colorScheme.onSurface, 1),
             ),
           ),
           subtitle: Text("Borç: 0.00"),
@@ -136,8 +134,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
     );
   }
 
-  Container salesListViewBuilder(
-      BuildContext context, ColorScheme colorScheme, TextTheme textTheme) {
+  Container salesListViewBuilder(BuildContext context) {
     return Container(
       height: MediaQuerySize(context).percent30Height,
       child: ListView.builder(
@@ -150,14 +147,14 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
               product['quantity'],
               product['unitPrice'],
               product['quantity'] * product['unitPrice'],
-              colorScheme,
-              textTheme);
+              context.colorScheme,
+              context.textTheme);
         },
       ),
     );
   }
 
-  Widget readingBarcodeRow(BuildContext context, ColorScheme colorScheme) {
+  Widget readingBarcodeRow(BuildContext context) {
     return Padding(
       padding: AppPaddings.onlyBottomLowPadding,
       child: Row(
@@ -166,7 +163,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
             child: customBarkodTextFormField(),
           ),
           SizedBox(width: MediaQuerySize(context).percent1Width),
-          elevatedButton(colorScheme, context),
+          elevatedButton(context.colorScheme, context),
         ],
       ),
     );
@@ -204,7 +201,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
     );
   }
 
-  Row topInformationRow(ColorScheme colorScheme) {
+  Row topInformationRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -214,7 +211,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
               "Miktar",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: darkenColor(colorScheme.onSurface, 0.2),
+                color: darkenColor(context.colorScheme.onSurface, 0.2),
               ),
             ),
             Text(totalQuantity.toStringAsFixed(2)),
@@ -225,7 +222,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
             Text("Brüt",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: darkenColor(colorScheme.onSurface, 0.2),
+                  color: darkenColor(context.colorScheme.onSurface, 0.2),
                 )),
             Text(grossTotal.toStringAsFixed(2)),
           ],
@@ -236,7 +233,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
               "İskonto",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: darkenColor(colorScheme.onSurface, 0.2)),
+                  color: darkenColor(context.colorScheme.onSurface, 0.2)),
             ),
             Text(discount.toStringAsFixed(2)),
           ],
@@ -247,7 +244,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
               "Tutar",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: darkenColor(colorScheme.onSurface, 0.2)),
+                  color: darkenColor(context.colorScheme.onSurface, 0.2)),
             ),
             Text(
               total.toStringAsFixed(2),
@@ -258,18 +255,18 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
     );
   }
 
-  AppBar appBar(ColorScheme colorScheme, TextTheme textTheme) {
+  AppBar appBar(BuildContext context) {
     return AppBar(
       title: Padding(
         padding: AppPaddings.onlyRightDefaultPadding,
         child: Text(
           "Satış Yap",
-          style: textTheme.headlineSmall,
+          style: context.textTheme.headlineSmall,
         ),
       ),
       centerTitle: true,
       scrolledUnderElevation: 0,
-      iconTheme: IconThemeData(color: colorScheme.onSurface),
+      iconTheme: IconThemeData(color: context.colorScheme.onSurface),
       actions: [
         const Icon(Icons.percent),
         SizedBox(width: MediaQuerySize(context).percent3Width),
@@ -370,21 +367,21 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
     );
   }
 
-  Widget buildPaymentButton(
-      String label, ColorScheme colorScheme, TextTheme textTheme) {
+  Widget buildPaymentButton(String label, BuildContext context) {
     return Expanded(
       child: Padding(
         padding: AppPaddings.horizontalSimetricVeryLowPadding,
         child: ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: colorScheme.primary,
+            backgroundColor: context.colorScheme.primary,
             padding: AppPaddings.verticalSimetricDefaultPadding,
           ),
           child: Text(
             label,
-            style: textTheme.bodyMedium?.copyWith(
-                color: colorScheme.surface, fontWeight: FontWeight.w500),
+            style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.surface,
+                fontWeight: FontWeight.w500),
           ),
         ),
       ),

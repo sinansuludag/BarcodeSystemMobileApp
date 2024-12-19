@@ -3,6 +3,8 @@ import 'package:barcode_system_app/core/constants/margins/margins.dart';
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/sizes/app_general_size.dart';
+import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
+import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/core/theme/color_scheme.dart';
 import 'package:barcode_system_app/features/home/home_screen_item_list.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +14,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
-      appBar: appBar(textTheme),
+      appBar: appBar(context),
       body: ScrollConfiguration(
         behavior: const ScrollBehavior()
             .copyWith(overscroll: false), // Glow efektini kaldırır
@@ -29,12 +28,12 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: MediaQuerySize(context).percent2Height),
                 Text(
                   "Suludağ YAZILIM",
-                  style: textTheme.headlineSmall,
+                  style: context.textTheme.headlineSmall,
                 ),
                 Text(
                   "Yönetici",
-                  style: textTheme.bodyMedium
-                      ?.copyWith(color: colorScheme.onSecondary.withAlpha(200)),
+                  style: context.textTheme.bodyMedium
+                      ?.copyWith(color: context.colorScheme.onSecondary),
                 ),
                 SizedBox(height: MediaQuerySize(context).percent3Height),
                 ListView.builder(
@@ -43,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final item = menuItems[index];
-                    return containerListTiles(colorScheme, item, context);
+                    return containerListTiles(item, context);
                   },
                 ),
               ],
@@ -54,12 +53,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Container containerListTiles(ColorScheme colorScheme,
+  Container containerListTiles(
       Map<String, dynamic> item, BuildContext context) {
     return Container(
       margin: AppMargins.verticalSimetricVeryLowMargins,
       decoration: BoxDecoration(
-        color: colorScheme.onPrimary,
+        color: context.colorScheme.onPrimary,
         borderRadius: AppBorderRadius.normalBorderRadius, // Yuvarlak köşeler
         boxShadow: [
           BoxShadow(
@@ -71,7 +70,8 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       child: Material(
-        color: colorScheme.onPrimary, // Arkaplan rengini şeffaf tutuyoruz
+        color:
+            context.colorScheme.onPrimary, // Arkaplan rengini şeffaf tutuyoruz
         borderRadius: AppBorderRadius
             .normalBorderRadius, // Ripple efektini yuvarlak yapar
         child: InkWell(
@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
             Navigator.pushNamed(context, item['route']);
           },
           child: ListTile(
-            leading: Icon(item['icon'], color: colorScheme.primary),
+            leading: Icon(item['icon'], color: context.colorScheme.primary),
             title: Text(item['title']),
             trailing: const Icon(Icons.arrow_forward_ios,
                 size: AppGeneralSize.homeScreenListTileTrailing),
@@ -105,28 +105,34 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  AppBar appBar(TextTheme textTheme) {
+  AppBar appBar(BuildContext context) {
     return AppBar(
-      title: appBarTitle(textTheme),
+      title: appBarTitle(context),
       scrolledUnderElevation: 0, // Kaydırma sırasında gölgeyi kaldırır
       automaticallyImplyLeading: false,
       actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.exit_to_app_outlined)),
+        IconButton(
+            onPressed: () {}, icon: const Icon(Icons.exit_to_app_outlined)),
       ],
     );
   }
 
-  Row appBarTitle(TextTheme textTheme) {
+  Row appBarTitle(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Sulscan ",
-          style: textTheme.titleLarge?.copyWith(color: Colors.black),
+          TrStrings.smallSplashTitleText1,
+          style: context.textTheme.titleLarge
+              ?.copyWith(color: context.colorScheme.onSurface),
+        ),
+        SizedBox(
+          width: MediaQuerySize(context).percent2Width,
         ),
         Text(
-          "PRO",
-          style: textTheme.titleLarge?.copyWith(color: Colors.red),
+          TrStrings.splashTitleText2,
+          style: context.textTheme.titleLarge
+              ?.copyWith(color: context.colorScheme.error),
         ),
       ],
     );

@@ -20,8 +20,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -40,33 +38,33 @@ class _RegisterScreenState extends State<RegisterScreen>
                   children: [
                     SizedBox(
                       height: MediaQuerySize(context).percent30Height,
-                      child: loginTitleText(context, textTheme, colorScheme),
+                      child: loginTitleText(context),
                     ),
-                    nameTextFormField(colorScheme),
+                    nameTextFormField(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent2Height,
                     ),
-                    surnameTextFormField(colorScheme),
+                    surnameTextFormField(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent2Height,
                     ),
-                    phoneTextFormField(colorScheme),
+                    phoneTextFormField(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent2Height,
                     ),
-                    emailTextFormField(colorScheme),
+                    emailTextFormField(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent2Height,
                     ),
-                    passwordTextFormField(colorScheme),
+                    passwordTextFormField(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent3Height,
                     ),
-                    signUpElevatedButton(colorScheme, context),
+                    signUpElevatedButton(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent2Height,
                     ),
-                    signInElevatedButton(colorScheme, context),
+                    signInElevatedButton(context),
                     SizedBox(
                       height: MediaQuerySize(context).percent1Height,
                     ),
