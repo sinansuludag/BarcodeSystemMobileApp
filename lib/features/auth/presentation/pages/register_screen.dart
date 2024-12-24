@@ -1,6 +1,7 @@
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
-import 'package:barcode_system_app/features/auth/domain/mixins/register_screen_mixin.dart';
+import 'package:barcode_system_app/core/mixins/register_screen_mixin.dart';
+
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {

@@ -7,8 +7,8 @@ import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/extensions/assets_path_extension.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
-import 'package:barcode_system_app/features/auth/domain/validator/email_validator.dart';
-import 'package:barcode_system_app/features/auth/domain/validator/password_validator.dart';
+import 'package:barcode_system_app/core/utils/validator/email_validator.dart';
+import 'package:barcode_system_app/core/utils/validator/password_validator.dart';
 import 'package:flutter/material.dart';
 
 mixin LoginScreenMixin {

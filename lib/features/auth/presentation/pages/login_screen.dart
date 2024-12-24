@@ -1,6 +1,6 @@
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
-import 'package:barcode_system_app/features/auth/domain/mixins/login_screen_mixin.dart';
+import 'package:barcode_system_app/core/mixins/login_screen_mixin.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
