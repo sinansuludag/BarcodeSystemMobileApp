@@ -6,8 +6,11 @@ class CustomTextFormField extends StatefulWidget {
   final String labelText;
   final String hintText;
   final Icon? suffixIcon;
+  final int? maxLines;
   final Widget? prefixIcon;
+  final bool? filled;
   final InputBorder? border;
+  final bool? enabled;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
@@ -20,8 +23,11 @@ class CustomTextFormField extends StatefulWidget {
     required this.hintText,
     this.suffixIcon,
     this.border,
+    this.enabled,
+    this.maxLines,
     this.prefixIcon,
     this.validator,
+    this.filled,
     required this.keyboardType,
     required this.textInputAction,
     required this.controller,
@@ -42,13 +48,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(
         labelText: widget.labelText,
-        filled: true,
+        filled: widget.filled ?? true,
+        enabled: widget.enabled ?? true,
         fillColor: CustomColorScheme.lightColorScheme.cardBackground,
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon,
@@ -81,6 +86,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       ),
       obscureText: widget.isPassword ? !_isPasswordVisible : false,
       keyboardType: widget.keyboardType,
+      maxLines: widget.maxLines ?? 1,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
     );

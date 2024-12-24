@@ -6,7 +6,7 @@ import 'package:barcode_system_app/core/constants/sizes/app_general_size.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/core/theme/color_scheme.dart';
-import 'package:barcode_system_app/features/home/home_screen_item_list.dart';
+import 'package:barcode_system_app/features/home/data/data_source/static_home_screen_items_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {

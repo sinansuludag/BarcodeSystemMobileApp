@@ -98,12 +98,7 @@ mixin LoginScreenMixin {
     return ElevatedButton(
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          FocusScope.of(context).unfocus();
-          print(
-              'Email: ${emailController.text}, Password: ${passwordController.text}');
-          passwordController.clear();
-          emailController.clear();
-          Navigator.pushNamed(context, RouteNames.home);
+          signIn(context);
         }
       },
       style: ElevatedButton.styleFrom(
@@ -163,7 +158,7 @@ mixin LoginScreenMixin {
             fit: BoxFit.cover,
           ),
           press: () {
-            print("Google login");
+            facebookLogin();
           },
         ),
         SocialCard(
@@ -172,10 +167,27 @@ mixin LoginScreenMixin {
             fit: BoxFit.cover,
           ),
           press: () {
-            print("Facebook login");
+            googleLogin();
           },
         ),
       ],
     );
+  }
+
+  signIn(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    print(
+        'Email: ${emailController.text}, Password: ${passwordController.text}');
+    passwordController.clear();
+    emailController.clear();
+    Navigator.pushNamed(context, RouteNames.home);
+  }
+
+  googleLogin() {
+    print("Google login");
+  }
+
+  facebookLogin() {
+    print("Facebook login");
   }
 }

@@ -43,7 +43,7 @@ class TrStrings {
       "Lütfen geçerli bir telefon numarası giriniz";
   static const String forgetPasswordScreenTitle = "Şifremi Unuttum";
   static const String forgetPasswordScreenText =
-      "Lütfen e-postanızı girin ve hesabınıza geri dönmeniz için bir bağlantı göndereceğiz";
+      "Lütfen e-postanızı girin ve e-postanıza gelen bağlantıyı kullanarak yeni şifrenizi oluşturabilirsiniz.";
   static const String forgetPasswordScreenButtonText = "Devam Et";
   static const String fogetPasswordScreenNoAccountText = "Hesabınız yok mu? ";
 

@@ -49,7 +49,7 @@ class CustomColorScheme extends ColorScheme {
     secondaryButtonTextColor: Color(0xFF2D3748), // İkinci buton metin rengi
     errorColor: Color(0xFFE53E3E), // Hata mesajı rengi
     errorTextColor: Color(0xFFFFFFFF), // Hata metni rengi
-    success: Color(0xFF81C784), // Başarı ve onay mesajı rengi
+    success: Color(0xFF3A8440), // Başarı ve onay mesajı rengi
     borders: Color(0xFFCBD5E0), // Çizgi ve sınır rengi
     secondaryText: Color(0xFF718096), // İkinci metin rengi (tekrar tanımlandı)
     cardBackground:

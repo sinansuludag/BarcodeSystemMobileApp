@@ -1,3 +1,4 @@
+import 'package:barcode_system_app/core/common_widgets/custom_app_bar.dart';
 import 'package:barcode_system_app/core/common_widgets/custom_text_form_field.dart';
 import 'package:barcode_system_app/core/constants/colors/color_darken.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
@@ -32,7 +33,7 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
+      appBar: customAppBarWidget(context),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -71,6 +72,21 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
         ),
       ),
     );
+  }
+
+  AppBar customAppBarWidget(BuildContext context) {
+    return customAppBar(context: context, title: "Satış Yap", actions: [
+      const Icon(Icons.percent),
+      SizedBox(width: MediaQuerySize(context).percent3Width),
+      const Icon(Icons.add),
+      SizedBox(width: MediaQuerySize(context).percent3Width),
+      const Icon(Icons.videogame_asset_sharp),
+      SizedBox(width: MediaQuerySize(context).percent3Width),
+      const Padding(
+        padding: AppPaddings.onlyRightDefaultPadding,
+        child: Icon(Icons.print),
+      ),
+    ]);
   }
 
   Widget choosePurchaseMethod(BuildContext context) {
@@ -250,33 +266,6 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
               total.toStringAsFixed(2),
             ),
           ],
-        ),
-      ],
-    );
-  }
-
-  AppBar appBar(BuildContext context) {
-    return AppBar(
-      title: Padding(
-        padding: AppPaddings.onlyRightDefaultPadding,
-        child: Text(
-          "Satış Yap",
-          style: context.textTheme.headlineSmall,
-        ),
-      ),
-      centerTitle: true,
-      scrolledUnderElevation: 0,
-      iconTheme: IconThemeData(color: context.colorScheme.onSurface),
-      actions: [
-        const Icon(Icons.percent),
-        SizedBox(width: MediaQuerySize(context).percent3Width),
-        const Icon(Icons.add),
-        SizedBox(width: MediaQuerySize(context).percent3Width),
-        const Icon(Icons.videogame_asset_sharp),
-        SizedBox(width: MediaQuerySize(context).percent3Width),
-        const Padding(
-          padding: AppPaddings.onlyRightDefaultPadding,
-          child: Icon(Icons.print),
         ),
       ],
     );

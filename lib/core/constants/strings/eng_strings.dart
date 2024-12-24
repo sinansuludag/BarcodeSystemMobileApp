@@ -43,7 +43,7 @@ class EngStrings {
   static const String invalidPhoneNumber = "Please enter a valid phone number";
   static const String forgetPasswordScreenTitle = "Forget Password";
   static const String forgetPasswordScreenText =
-      "Please enter your email and we will send \nyou a link to return to your account";
+      "Please enter your e-mail and you can create your new password using the link sent to your e-mail.";
   static const String forgetPasswordScreenButtonText = "Continue";
   static const String fogetPasswordScreenNoAccountText =
       "Don’t have an account? ";
