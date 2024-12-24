@@ -76,16 +76,15 @@ class _MakeSaleScreenState extends State<MakeSaleScreen> {
 
   AppBar customAppBarWidget(BuildContext context) {
     return customAppBar(context: context, title: "Satış Yap", actions: [
-      const Icon(Icons.percent),
-      SizedBox(width: MediaQuerySize(context).percent3Width),
-      const Icon(Icons.add),
-      SizedBox(width: MediaQuerySize(context).percent3Width),
-      const Icon(Icons.videogame_asset_sharp),
-      SizedBox(width: MediaQuerySize(context).percent3Width),
-      const Padding(
-        padding: AppPaddings.onlyRightDefaultPadding,
-        child: Icon(Icons.print),
-      ),
+      Row(
+        children: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.percent)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.videogame_asset_sharp)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.print)),
+        ],
+      )
     ]);
   }
 
