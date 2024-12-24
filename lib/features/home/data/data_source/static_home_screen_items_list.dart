@@ -8,7 +8,7 @@ final List<Map<String, dynamic>> menuItems = [
     'icon': Icons.point_of_sale_sharp,
     'route': RouteNames.makeSale
   },
-  {'title': 'Ürünler', 'icon': Icons.inventory, 'route': '/products'},
+  {'title': 'Ürünler', 'icon': Icons.inventory, 'route': RouteNames.product},
   {
     'title': 'Ürün Ekle / Güncelle',
     'icon': Icons.add_circle_outline,

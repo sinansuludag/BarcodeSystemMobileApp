@@ -6,6 +6,7 @@ import 'package:barcode_system_app/features/auth/presentation/pages/register_scr
 import 'package:barcode_system_app/features/home/presentation/pages/home_screen.dart';
 import 'package:barcode_system_app/features/makeSale/presentation/pages/make_sale_screen.dart';
 import 'package:barcode_system_app/features/on_boarding/presentation/on_boarding_screen.dart';
+import 'package:barcode_system_app/features/products/presentation/pages/products_screen.dart';
 import 'package:barcode_system_app/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => MakeSaleScreen());
       case RouteNames.addUpdateProduct:
         return MaterialPageRoute(builder: (_) => AddUpdateProductScreen());
-
+      case RouteNames.product:
+        return MaterialPageRoute(builder: (_) => ProductsScreen());
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }

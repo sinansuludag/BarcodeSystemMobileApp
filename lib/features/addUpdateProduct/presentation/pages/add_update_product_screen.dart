@@ -148,6 +148,8 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
                                     // Dropdown işlevi
                                   },
                                   elevation: 4,
+                                  menuMaxHeight:
+                                      MediaQuerySize(context).percent50Height,
                                   style: context.textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w500,
                                   ),
