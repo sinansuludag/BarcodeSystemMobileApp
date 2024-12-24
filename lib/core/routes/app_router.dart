@@ -1,5 +1,5 @@
 import 'package:barcode_system_app/core/routes/route_names.dart';
-import 'package:barcode_system_app/features/addUpdateProduct/presentation/add_update_product_screen.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/pages/add_update_product_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/forget_password_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/login_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/register_screen.dart';

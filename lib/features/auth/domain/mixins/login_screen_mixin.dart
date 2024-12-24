@@ -1,5 +1,5 @@
-import 'package:barcode_system_app/common_widgets/custom_text_form_field.dart';
-import 'package:barcode_system_app/common_widgets/social_card.dart';
+import 'package:barcode_system_app/core/common_widgets/custom_text_form_field.dart';
+import 'package:barcode_system_app/core/common_widgets/social_card.dart';
 import 'package:barcode_system_app/core/constants/border_radius/border_radius.dart';
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
