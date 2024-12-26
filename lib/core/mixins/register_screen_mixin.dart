@@ -10,6 +10,9 @@ import 'package:barcode_system_app/core/utils/validator/name_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/password_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/phone_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/surname_validator.dart';
+import 'package:barcode_system_app/features/auth/data/models/user_register_request_model.dart';
+import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:barcode_system_app/service_locator.dart';
 import 'package:flutter/material.dart';
 
 mixin RegisterScreenMixin {
@@ -137,11 +140,32 @@ mixin RegisterScreenMixin {
     BuildContext context,
   ) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (formKey.currentState!.validate()) {
-          print(
-              'Name:${nameController.text} Surname: ${surnameController.text} Email:${emailController.text} phone: ${phoneController.text} password: ${passwordController.text}');
-          Navigator.pushNamed(context, RouteNames.home);
+          var userRequestModel = UserRegisterRequestModel(
+            name: nameController.text,
+            surname: surnameController.text,
+            eposta: emailController.text,
+            phone: phoneController.text,
+            password: passwordController.text,
+          );
+
+          bool isSignedUp =
+              await locator<IAuthRepository>().signUp(userRequestModel);
+          if (isSignedUp) {
+            // Başarılı kayıt durumunda, Home sayfasına yönlendiriyoruz
+            Navigator.pushNamed(context, RouteNames.home);
+            // Başarılı bildirim
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Kayıt başarılı!")),
+            );
+          } else {
+            // Başarısız kayıt durumunda hata mesajı gösteriyoruz
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text("Kayıt başarısız, lütfen tekrar deneyin!")),
+            );
+          }
         }
       },
       style: ElevatedButton.styleFrom(
