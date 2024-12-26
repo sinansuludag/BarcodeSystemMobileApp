@@ -1,9 +1,12 @@
+import 'package:barcode_system_app/core/common_widgets/custom_text_form_field.dart';
+import 'package:barcode_system_app/core/constants/border_radius/border_radius.dart';
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/core/mixins/login_screen_mixin.dart';
+import 'package:barcode_system_app/core/utils/validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -62,6 +65,61 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
         ),
       ),
     );
+  }
+
+  ElevatedButton signInElevatedButton(
+    BuildContext context,
+  ) {
+    return ElevatedButton(
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          signIn(context);
+        }
+      },
+      style: ElevatedButton.styleFrom(
+        elevation: 5,
+        backgroundColor: context.colorScheme.primary,
+        foregroundColor: context.colorScheme.onPrimary,
+        minimumSize: Size(MediaQuerySize(context).percent60Width,
+            MediaQuerySize(context).percent12Width),
+        shape: const StadiumBorder(),
+      ),
+      child: const Text(TrStrings.signIn),
+    );
+  }
+
+  signIn(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    print(
+        'Email: ${emailController.text}, Password: ${passwordController.text}');
+    passwordController.clear();
+    emailController.clear();
+    Navigator.pushNamed(context, RouteNames.home);
+  }
+
+  CustomTextFormField emailTextFormField(BuildContext context) {
+    return CustomTextFormField(
+      controller: emailController,
+      prefixIcon:
+          prefixIconDecoration(context, const Icon(Icons.email_outlined)),
+      labelText: TrStrings.labelEmail,
+      hintText: TrStrings.hintTextEmail,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      validator: EmailValidator.emailValidate,
+    );
+  }
+
+  Padding prefixIconDecoration(BuildContext context, Icon icon) {
+    return Padding(
+        padding: AppPaddings.allLowPadding,
+        child: Container(
+          decoration: BoxDecoration(
+            color: context.colorScheme.secondary,
+            borderRadius: AppBorderRadius.lowBorderRadius,
+          ),
+          child: icon,
+        ));
   }
 
   Widget noAccountTextButton(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:barcode_system_app/core/constants/border_radius/border_radius.da
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
+import 'package:barcode_system_app/core/mixins/app_update_product_screen_mixin.dart';
 import 'package:barcode_system_app/core/theme/color_scheme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +13,14 @@ class AddUpdateProductScreen extends StatefulWidget {
   State<AddUpdateProductScreen> createState() => _AddUpdateProductScreenState();
 }
 
-class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _barkodController = TextEditingController();
-  final _productNameController = TextEditingController();
-  final _salePriceController = TextEditingController();
-  final _purchasePriceController = TextEditingController();
-  final _profitRatioController = TextEditingController();
-  final _kdvRatioController = TextEditingController();
-  final _productDetailsController = TextEditingController();
+class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
+    with AppUpdateProductScreenMixin {
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,213 +41,239 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
                   SizedBox(height: MediaQuerySize(context).percent2Height),
                   productBarcodeSection(context),
                   SizedBox(height: MediaQuerySize(context).percent1Height),
-                  Padding(
-                    padding: AppPaddings.horizontalSimetricDefaultPadding,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          CustomTextFormField(
-                              labelText: 'Ürün adı',
-                              hintText: 'Ürün adı',
-                              filled: false,
-                              border: InputBorder.none,
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.next,
-                              controller: _productNameController),
-                          SizedBox(
-                              height: MediaQuerySize(context).percent1Height),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: CustomTextFormField(
-                                    labelText: 'Satış fiyatı',
-                                    hintText: 'Satış fiyatı',
-                                    filled: false,
-                                    border: InputBorder.none,
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    controller: _salePriceController),
-                              ),
-                              SizedBox(
-                                  width: MediaQuerySize(context).percent1Width),
-                              Expanded(
-                                child: CustomTextFormField(
-                                    labelText: 'Alış fiyatı',
-                                    hintText: 'Alış fiyatı',
-                                    border: InputBorder.none,
-                                    filled: false,
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    controller: _purchasePriceController),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                              height: MediaQuerySize(context).percent1Height),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: CustomTextFormField(
-                                    labelText: 'Kâr oranı',
-                                    hintText: 'kâr oranı',
-                                    filled: false,
-                                    border: InputBorder.none,
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    controller: _profitRatioController),
-                              ),
-                              SizedBox(
-                                  width: MediaQuerySize(context).percent1Width),
-                              Expanded(
-                                child: CustomTextFormField(
-                                    labelText: 'KDV (%)',
-                                    hintText: 'KDV (%)',
-                                    border: InputBorder.none,
-                                    filled: false,
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    controller: _kdvRatioController),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                              height: MediaQuerySize(context).percent1Height),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      // Stok azalt
-                                    },
-                                    icon: Icon(Icons.remove_circle,
-                                        color: context.colorScheme.error),
-                                  ),
-                                  Text('Stok'),
-                                  IconButton(
-                                    onPressed: () {
-                                      // Stok artır
-                                    },
-                                    icon: Icon(Icons.add_circle,
-                                        color: CustomColorScheme
-                                            .lightColorScheme.success),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: AppPaddings
-                                    .horizontalSimetricDefaultPadding,
-                                child: DropdownButton<String>(
-                                  value: 'Grupsuz ürün',
-                                  items: ['Grupsuz ürün', 'Grup 1', 'Grup 2']
-                                      .map((e) => DropdownMenuItem(
-                                          value: e, child: Text(e)))
-                                      .toList(),
-                                  onChanged: (value) {
-                                    // Dropdown işlevi
-                                  },
-                                  elevation: 4,
-                                  menuMaxHeight:
-                                      MediaQuerySize(context).percent50Height,
-                                  style: context.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  dropdownColor: context.colorScheme.secondary,
-                                  borderRadius:
-                                      AppBorderRadius.normalBorderRadius,
-                                  menuWidth:
-                                      MediaQuerySize(context).percent35Width,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                              height: MediaQuerySize(context).percent1Height),
-                          CustomTextFormField(
-                              labelText: 'Ürün detayı',
-                              hintText: 'Ürün detayı',
-                              maxLines: 3,
-                              filled: false,
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.none,
-                              controller: _productDetailsController),
-                          SizedBox(
-                              height: MediaQuerySize(context).percent2Height),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  // Sil işlevi
-                                },
-                                icon: Icon(Icons.delete,
-                                    color: context.colorScheme.onPrimary),
-                                label: Text(
-                                  'Sil',
-                                  style: context.textTheme.bodyMedium?.copyWith(
-                                      color: context.colorScheme.onPrimary),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: context.colorScheme.error,
-                                  elevation: 4,
-                                ),
-                              ),
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  // Kaydet işlevi
-                                },
-                                icon: Icon(Icons.save,
-                                    color: context.colorScheme.onPrimary),
-                                label: Text(
-                                  'Kaydet',
-                                  style: context.textTheme.bodyMedium?.copyWith(
-                                      color: context.colorScheme.onPrimary),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: CustomColorScheme
-                                      .lightColorScheme.success,
-                                  elevation: 4,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                              height: MediaQuerySize(context).percent10Height),
-                        ],
-                      ),
-                    ),
-                  ),
+                  productInputsSectionContainer(context),
                 ],
               ),
             ),
           ),
-          Positioned(
-            bottom: MediaQuerySize(context).percent5Height,
-            right: MediaQuerySize(context).percent5Width,
-            child: SizedBox(
-              height: MediaQuerySize(context).percent6Height,
-              width: MediaQuerySize(context).percent15Height,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                label: Text('Tara',
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: context.colorScheme.onPrimary,
-                    )),
-                icon: Icon(
-                  Icons.qr_code_scanner,
-                  color: context.colorScheme.onPrimary,
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colorScheme.primary,
-                  elevation: 4,
-                ),
-              ),
-            ),
-          ),
+          barcodeScanButtonPositioned(context),
         ],
       ),
     );
+  }
+
+  Positioned barcodeScanButtonPositioned(BuildContext context) {
+    return Positioned(
+      bottom: MediaQuerySize(context).percent5Height,
+      right: MediaQuerySize(context).percent5Width,
+      child: SizedBox(
+        height: MediaQuerySize(context).percent6Height,
+        width: MediaQuerySize(context).percent15Height,
+        child: ElevatedButton.icon(
+          onPressed: () {},
+          label: Text('Tara',
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.onPrimary,
+              )),
+          icon: Icon(
+            Icons.qr_code_scanner,
+            color: context.colorScheme.onPrimary,
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: context.colorScheme.primary,
+            elevation: 4,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding productInputsSectionContainer(BuildContext context) {
+    return Padding(
+      padding: AppPaddings.horizontalSimetricDefaultPadding,
+      child: Container(
+        child: Column(
+          children: [
+            productNameTextFormField(),
+            SizedBox(height: MediaQuerySize(context).percent1Height),
+            Row(
+              children: [
+                productSalePriceTextFormField(),
+                SizedBox(width: MediaQuerySize(context).percent1Width),
+                productPurchasePriceTextFormField(),
+              ],
+            ),
+            SizedBox(height: MediaQuerySize(context).percent1Height),
+            Row(
+              children: [
+                productProfitRatioTextFormField(),
+                SizedBox(width: MediaQuerySize(context).percent1Width),
+                productKdvRaitoTextFormField(),
+              ],
+            ),
+            SizedBox(height: MediaQuerySize(context).percent1Height),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                stockIncreaseAndDecreaseButton(context),
+                productGroupDropdownButton(context),
+              ],
+            ),
+            SizedBox(height: MediaQuerySize(context).percent1Height),
+            productDetailsTextFormField(),
+            SizedBox(height: MediaQuerySize(context).percent2Height),
+            removeAndSaveButtonRow(context),
+            SizedBox(height: MediaQuerySize(context).percent10Height),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row removeAndSaveButtonRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton.icon(
+          onPressed: () {
+            // Sil işlevi
+          },
+          icon: Icon(Icons.delete, color: context.colorScheme.onPrimary),
+          label: Text(
+            'Sil',
+            style: context.textTheme.bodyMedium
+                ?.copyWith(color: context.colorScheme.onPrimary),
+          ),
+          style: OutlinedButton.styleFrom(
+            backgroundColor: context.colorScheme.error,
+            elevation: 4,
+          ),
+        ),
+        ElevatedButton.icon(
+          onPressed: () {
+            // Kaydet işlevi
+          },
+          icon: Icon(Icons.save, color: context.colorScheme.onPrimary),
+          label: Text(
+            'Kaydet',
+            style: context.textTheme.bodyMedium
+                ?.copyWith(color: context.colorScheme.onPrimary),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: CustomColorScheme.lightColorScheme.success,
+            elevation: 4,
+          ),
+        ),
+      ],
+    );
+  }
+
+  CustomTextFormField productDetailsTextFormField() {
+    return CustomTextFormField(
+        labelText: 'Ürün detayı',
+        hintText: 'Ürün detayı',
+        maxLines: 3,
+        filled: false,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.none,
+        controller: productDetailsController);
+  }
+
+  Padding productGroupDropdownButton(BuildContext context) {
+    return Padding(
+      padding: AppPaddings.horizontalSimetricDefaultPadding,
+      child: DropdownButton<String>(
+        value: 'Grupsuz ürün',
+        items: ['Grupsuz ürün', 'Grup 1', 'Grup 2']
+            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+            .toList(),
+        onChanged: (value) {
+          // Dropdown işlevi
+        },
+        elevation: 4,
+        menuMaxHeight: MediaQuerySize(context).percent50Height,
+        style: context.textTheme.bodyMedium?.copyWith(
+          fontWeight: FontWeight.w500,
+        ),
+        dropdownColor: context.colorScheme.secondary,
+        borderRadius: AppBorderRadius.normalBorderRadius,
+        menuWidth: MediaQuerySize(context).percent35Width,
+      ),
+    );
+  }
+
+  Row stockIncreaseAndDecreaseButton(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () {
+            // Stok azalt
+          },
+          icon: Icon(Icons.remove_circle, color: context.colorScheme.error),
+        ),
+        Text('Stok'),
+        IconButton(
+          onPressed: () {
+            // Stok artır
+          },
+          icon: Icon(Icons.add_circle,
+              color: CustomColorScheme.lightColorScheme.success),
+        ),
+      ],
+    );
+  }
+
+  Expanded productKdvRaitoTextFormField() {
+    return Expanded(
+      child: CustomTextFormField(
+          labelText: 'KDV (%)',
+          hintText: 'KDV (%)',
+          border: InputBorder.none,
+          filled: false,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          controller: kdvRatioController),
+    );
+  }
+
+  Expanded productProfitRatioTextFormField() {
+    return Expanded(
+      child: CustomTextFormField(
+          labelText: 'Kâr oranı',
+          hintText: 'kâr oranı',
+          filled: false,
+          border: InputBorder.none,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          controller: profitRatioController),
+    );
+  }
+
+  Expanded productPurchasePriceTextFormField() {
+    return Expanded(
+      child: CustomTextFormField(
+          labelText: 'Alış fiyatı',
+          hintText: 'Alış fiyatı',
+          border: InputBorder.none,
+          filled: false,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          controller: purchasePriceController),
+    );
+  }
+
+  Widget productSalePriceTextFormField() {
+    return Expanded(
+      child: CustomTextFormField(
+          labelText: 'Satış fiyatı',
+          hintText: 'Satış fiyatı',
+          filled: false,
+          border: InputBorder.none,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          controller: salePriceController),
+    );
+  }
+
+  Widget productNameTextFormField() {
+    return CustomTextFormField(
+        labelText: 'Ürün adı',
+        hintText: 'Ürün adı',
+        filled: false,
+        border: InputBorder.none,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        controller: productNameController);
   }
 
   Widget productBarcodeSection(BuildContext context) {
@@ -398,7 +424,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
           filled: false,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-          controller: _barkodController,
+          controller: barkodController,
         ),
       ),
     );
