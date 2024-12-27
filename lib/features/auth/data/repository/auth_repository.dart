@@ -1,52 +1,61 @@
-import 'package:barcode_system_app/features/auth/data/data_source/remote/abstract_auth_api_service.dart';
-import 'package:barcode_system_app/features/auth/data/models/user_register_request_model.dart';
+import 'package:barcode_system_app/features/auth/data/data_source/local/auth_local_services/abstract_local_service.dart';
+import 'package:barcode_system_app/features/auth/data/data_source/remote/auth_api_services/abstract_auth_api_service.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_request_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_request_model.dart';
 import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
-import 'package:barcode_system_app/service_locator.dart';
 
 class AuthRepositoryImpl extends IAuthRepository {
   final IAuthApiService _authApiService;
+  final ILocalStorageService _localStorageService;
 
-  AuthRepositoryImpl(this._authApiService);
+  AuthRepositoryImpl(this._authApiService, this._localStorageService);
 
   @override
   Future<bool> isSignedIn() {
-    // TODO: implement isSignedIn
-    throw UnimplementedError();
+    return _localStorageService.isLoggedIn();
   }
 
   @override
-  Future<void> signIn(String email, String password) {
-    // TODO: implement signIn
-    throw UnimplementedError();
+  Future<bool> signIn(UserLoginRequestModel userLoginRequestModel) async {
+    try {
+      bool result = await _authApiService.signIn(userLoginRequestModel);
+      if (result) {
+        await _localStorageService.setLoggedIn(result);
+      }
+      return result;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> signInWithFacebook() {
+  Future<bool> signInWithFacebook() {
     // TODO: implement signInWithFacebook
     throw UnimplementedError();
   }
 
   @override
-  Future<void> signInWithGoogle() {
+  Future<bool> signInWithGoogle() {
     // TODO: implement signInWithGoogle
     throw UnimplementedError();
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    await _localStorageService.setLoggedIn(false);
   }
 
   @override
-  Future<bool> signUp(UserRegisterRequestModel userRequestModel) async {
+  Future<bool> signUp(UserRegisterRequestModel userRegisterRequestModel) async {
     try {
       // API servisinden gelen sonucu bekliyoruz
-      bool result = await _authApiService.signUp(userRequestModel);
+      bool result = await _authApiService.signUp(userRegisterRequestModel);
+      if (result) {
+        await _localStorageService.setLoggedIn(result);
+      }
       return result; // API'den gelen sonucu geri döndürüyoruz
     } catch (e) {
-      print('Error during signUp in repository: $e');
-      return false;
+      rethrow;
     }
   }
 }

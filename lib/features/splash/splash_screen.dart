@@ -2,16 +2,19 @@ import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/core/theme/color_scheme.dart';
+import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_manager.dart';
+import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animationLeft;
@@ -72,9 +75,14 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Navigate to the next screen after the duration
     Future.delayed(Duration(seconds: duration), () {
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, RouteNames.onBoarding);
-      }
+      ref.read(authProvider.notifier).checkLoginStatus().then((_) {
+        final authState = ref.read(authProvider);
+        if (authState == AuthState.authenticated) {
+          Navigator.pushReplacementNamed(context, RouteNames.home);
+        } else {
+          Navigator.pushReplacementNamed(context, RouteNames.login);
+        }
+      });
     });
   }
 

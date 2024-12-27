@@ -10,16 +10,24 @@ import 'package:barcode_system_app/core/mixins/login_screen_mixin.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/core/utils/validator/email_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/password_validator.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_request_model.dart';
+import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_manager.dart';
+import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_provider.dart';
+import 'package:barcode_system_app/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with LoginScreenMixin {
+class _LoginScreenState extends ConsumerState<LoginScreen>
+    with LoginScreenMixin {
+  late IAuthRepository _authRepository;
   @override
   void dispose() {
     disposeControllers();
@@ -27,10 +35,15 @@ class _LoginScreenState extends State<LoginScreen> with LoginScreenMixin {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _authRepository = locator<IAuthRepository>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:
-          false, // Klavye açıldığında ekranın boyutunun değiştirilmesini engeller
+      // Klavye açıldığında ekranın boyutunun değiştirilmesini engeller
       body: GestureDetector(
         onTap: () {
           // Ekrana tıklanırsa klavye kapanacak
@@ -232,12 +245,31 @@ class _LoginScreenState extends State<LoginScreen> with LoginScreenMixin {
     );
   }
 
-  signIn(BuildContext context) {
+  signIn(BuildContext context) async {
     FocusScope.of(context).unfocus();
-    print(
-        'Email: ${emailController.text}, Password: ${passwordController.text}');
-    passwordController.clear();
-    emailController.clear();
-    Navigator.pushNamed(context, RouteNames.home);
+
+    try {
+      // Yükleniyor durumunu aktif et
+      ref.read(isLoadingProvider.notifier).state = true;
+      var userLoginRequestModel = UserLoginRequestModel(
+          eposta: emailController.text, password: passwordController.text);
+      // Auth işlemi
+      final authNotifier = ref.read(authProvider.notifier);
+      await authNotifier.signIn(userLoginRequestModel);
+
+      // Eğer giriş başarılıysa yönlendirme yap
+      if (ref.watch(authProvider) == AuthState.authenticated) {
+        emailController.clear();
+        passwordController.clear();
+        Navigator.pushReplacementNamed(context, RouteNames.home);
+      } else {
+        throw Exception();
+      }
+    } catch (e) {
+      // Hata tipi kontrolü
+    } finally {
+      // Yükleniyor durumunu pasif et
+      ref.read(isLoadingProvider.notifier).state = false;
+    }
   }
 }

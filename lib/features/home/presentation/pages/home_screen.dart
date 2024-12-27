@@ -5,12 +5,28 @@ import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/sizes/app_general_size.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
+import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/core/theme/color_scheme.dart';
+import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:barcode_system_app/features/home/data/data_source/static_home_screen_items_list.dart';
+import 'package:barcode_system_app/service_locator.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late IAuthRepository _authRepository;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _authRepository = locator<IAuthRepository>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +128,11 @@ class HomeScreen extends StatelessWidget {
       automaticallyImplyLeading: false,
       actions: [
         IconButton(
-            onPressed: () {}, icon: const Icon(Icons.exit_to_app_outlined)),
+            onPressed: () async {
+              await _authRepository.signOut();
+              Navigator.pushNamed(context, RouteNames.login);
+            },
+            icon: const Icon(Icons.exit_to_app_outlined)),
       ],
     );
   }
