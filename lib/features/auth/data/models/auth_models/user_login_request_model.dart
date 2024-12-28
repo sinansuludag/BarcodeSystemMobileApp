@@ -1,18 +1,18 @@
-class UserLoginRequestModel {
+class UserLoginModel {
   final int? id;
   final String? eposta;
   final String? password;
 
   // Constructor
-  UserLoginRequestModel({
+  UserLoginModel({
     this.id,
     this.eposta,
     this.password,
   });
 
   // fromJson: API'den alınan JSON verisini nesneye dönüştürür
-  factory UserLoginRequestModel.fromJson(Map<String, dynamic> json) {
-    return UserLoginRequestModel(
+  factory UserLoginModel.fromJson(Map<String, dynamic> json) {
+    return UserLoginModel(
       id: json['id'] as int?,
       eposta: json['eposta'] as String?,
       password: json['sifre'] as String?,
@@ -29,8 +29,8 @@ class UserLoginRequestModel {
   }
 
   // fromMap: Veritabanından veriyi alırken kullanılır
-  factory UserLoginRequestModel.fromMap(Map<String, dynamic> map) {
-    return UserLoginRequestModel(
+  factory UserLoginModel.fromMap(Map<String, dynamic> map) {
+    return UserLoginModel(
       id: map['id'] as int?, // ID'yi ekledik.
       eposta: map['email'] as String?,
       password: map['password'] as String?,

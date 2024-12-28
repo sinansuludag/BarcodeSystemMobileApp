@@ -17,9 +17,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   // Giriş yapma
-  Future<void> signIn(UserLoginRequestModel userLoginRequestModel) async {
+  Future<void> signIn(UserLoginModel userLoginModel) async {
     try {
-      final result = await _repository.signIn(userLoginRequestModel);
+      final result = await _repository.signIn(userLoginModel);
       state = result ? AuthState.authenticated : AuthState.unauthenticated;
     } catch (e) {
       state = AuthState.unauthenticated;
@@ -28,7 +28,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   // Kayıt olma
-  Future<void> signUp(UserRegisterRequestModel userRegisterRequestModel) async {
+  Future<void> signUp(UserRegisterModel userRegisterRequestModel) async {
     try {
       final result = await _repository.signUp(userRegisterRequestModel);
       state = result ? AuthState.authenticated : AuthState.unauthenticated;

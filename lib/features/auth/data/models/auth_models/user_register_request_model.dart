@@ -1,4 +1,4 @@
-class UserRegisterRequestModel {
+class UserRegisterModel {
   final String? name; // Ad
   final String? surname; // Soyad
   final String? eposta;
@@ -6,7 +6,7 @@ class UserRegisterRequestModel {
   final String? password;
 
   // Constructor
-  UserRegisterRequestModel({
+  UserRegisterModel({
     this.name,
     this.surname,
     this.phone,
@@ -15,12 +15,12 @@ class UserRegisterRequestModel {
   });
 
   // fromJson: API'den alınan JSON verisini nesneye dönüştürür
-  factory UserRegisterRequestModel.fromJson(Map<String, dynamic> json) {
+  factory UserRegisterModel.fromJson(Map<String, dynamic> json) {
     // 'adSoyad'ı 'name' ve 'surname' olarak ayırıyoruz
     String? fullName = json['adSoyad'] as String?;
     List<String> nameParts = fullName?.split(" ") ?? [];
 
-    return UserRegisterRequestModel(
+    return UserRegisterModel(
       name: nameParts.isNotEmpty ? nameParts[0] : null,
       surname: nameParts.length > 1
           ? nameParts.sublist(1).join(" ")
@@ -58,8 +58,8 @@ class UserRegisterRequestModel {
   }
 
   // fromMap: Veritabanından veriyi alırken kullanılır
-  factory UserRegisterRequestModel.fromMap(Map<String, dynamic> map) {
-    return UserRegisterRequestModel(
+  factory UserRegisterModel.fromMap(Map<String, dynamic> map) {
+    return UserRegisterModel(
       name: map['name'] as String?,
       surname: map['surname'] as String?,
       phone: map['phone'] as String?,

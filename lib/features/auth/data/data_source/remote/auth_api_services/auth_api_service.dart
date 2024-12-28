@@ -11,48 +11,22 @@ class AuthApiServiceImpl extends IAuthApiService {
   AuthApiServiceImpl(this._dio);
 
   @override
-  Future<bool> signIn(UserLoginRequestModel userLoginRequestModel) async {
+  Future<bool> signIn(UserLoginModel userLoginModel) async {
     final String url = '${Urls.kullanici.path}/KullaniciList';
     try {
       // Tüm kullanıcı listesini getir
       final response = await _dio.get(
         url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
       );
 
       if (response.statusCode == 200) {
-        // Kullanıcı listesini parse et
-        final List<dynamic> userList = response.data;
-        final List<UserLoginRequestModel> users = userList
-            .map((user) => UserLoginRequestModel.fromJson(user))
-            .toList();
-
-        // Eposta ve şifre eşleşmesi kontrolü
-        final isMatching = users.any(
-          (user) =>
-              user.eposta == userLoginRequestModel.eposta &&
-              user.password == userLoginRequestModel.password,
-        );
-
-        if (isMatching) {
-          // Kullanıcı bulunduysa giriş başarılı
-          return true;
-        } else {
-          // Kullanıcı bulunamazsa hata fırlat
-          throw Exception('Eposta veya şifre yanlış');
-        }
+        return _isUserValid(response, userLoginModel);
       } else {
         throw Exception('Failed to fetch user list');
       }
     } on DioException catch (dioError) {
-      // Dio hatalarını yönet
       rethrow;
     } catch (e) {
-      // Diğer hataları yönet
       rethrow;
     }
   }
@@ -64,17 +38,12 @@ class AuthApiServiceImpl extends IAuthApiService {
   }
 
   @override
-  Future<bool> signUp(UserRegisterRequestModel userRequestModel) async {
+  Future<bool> signUp(UserRegisterModel userRegisterModel) async {
     final String url = '${Urls.kullanici.path}/KullaniciAdd';
     try {
       final response = await _dio.post(
         url,
-        data: userRequestModel.toJson(),
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        data: userRegisterModel.toJson(),
       );
 
       if (response.statusCode == 201) {
@@ -87,5 +56,19 @@ class AuthApiServiceImpl extends IAuthApiService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  bool _isUserValid(Response<dynamic> response, UserLoginModel userLoginModel) {
+    final List<dynamic> userList = response.data;
+    final List<UserLoginModel> users =
+        userList.map((user) => UserLoginModel.fromJson(user)).toList();
+
+    // Eposta ve şifre eşleşmesi kontrolü
+    final isMatching = users.any(
+      (user) =>
+          user.eposta == userLoginModel.eposta &&
+          user.password == userLoginModel.password,
+    );
+    return isMatching;
   }
 }

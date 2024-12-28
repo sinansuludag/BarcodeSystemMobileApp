@@ -16,9 +16,9 @@ class AuthRepositoryImpl extends IAuthRepository {
   }
 
   @override
-  Future<bool> signIn(UserLoginRequestModel userLoginRequestModel) async {
+  Future<bool> signIn(UserLoginModel userLoginModel) async {
     try {
-      bool result = await _authApiService.signIn(userLoginRequestModel);
+      bool result = await _authApiService.signIn(userLoginModel);
       if (result) {
         await _localStorageService.setLoggedIn(result);
       }
@@ -46,10 +46,10 @@ class AuthRepositoryImpl extends IAuthRepository {
   }
 
   @override
-  Future<bool> signUp(UserRegisterRequestModel userRegisterRequestModel) async {
+  Future<bool> signUp(UserRegisterModel userRegisterModel) async {
     try {
       // API servisinden gelen sonucu bekliyoruz
-      bool result = await _authApiService.signUp(userRegisterRequestModel);
+      bool result = await _authApiService.signUp(userRegisterModel);
       if (result) {
         await _localStorageService.setLoggedIn(result);
       }

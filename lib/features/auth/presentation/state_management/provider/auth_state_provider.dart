@@ -1,10 +1,8 @@
 import 'package:barcode_system_app/features/auth/data/data_source/local/auth_local_services/abstract_local_service.dart';
 import 'package:barcode_system_app/features/auth/data/data_source/remote/auth_api_services/abstract_auth_api_service.dart';
 import 'package:barcode_system_app/features/auth/data/repository/auth_repository.dart';
-import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_manager.dart';
 import 'package:barcode_system_app/service_locator.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {

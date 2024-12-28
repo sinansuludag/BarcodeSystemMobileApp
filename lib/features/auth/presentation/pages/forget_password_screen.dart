@@ -4,8 +4,8 @@ import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
 import 'package:barcode_system_app/core/constants/strings/tr_strings.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
+import 'package:barcode_system_app/core/mixins/forget_password_mixin.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
-import 'package:barcode_system_app/core/mixins/login_screen_mixin.dart';
 import 'package:barcode_system_app/core/utils/validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,13 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
-    with LoginScreenMixin {
+    with ForgetPasswordMixin {
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,15 +92,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>
       ),
       child: const Text(TrStrings.signIn),
     );
-  }
-
-  signIn(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    print(
-        'Email: ${emailController.text}, Password: ${passwordController.text}');
-    passwordController.clear();
-    emailController.clear();
-    Navigator.pushNamed(context, RouteNames.home);
   }
 
   CustomTextFormField emailTextFormField(BuildContext context) {

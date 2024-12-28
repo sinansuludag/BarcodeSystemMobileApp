@@ -11,12 +11,7 @@ import 'package:barcode_system_app/core/utils/validator/name_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/password_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/phone_validator.dart';
 import 'package:barcode_system_app/core/utils/validator/surname_validator.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_request_model.dart';
-import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
-import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_manager.dart';
 import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_provider.dart';
-import 'package:barcode_system_app/service_locator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -204,37 +199,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     BuildContext context,
   ) {
     return ElevatedButton(
-      onPressed: () async {
-        if (formKey.currentState!.validate()) {
-          try {
-            // Yükleniyor durumunu aktif et
-            ref.read(isLoadingProvider.notifier).state = true;
-            var userRegisterRequestModel = UserRegisterRequestModel(
-                name: nameController.text,
-                surname: surnameController.text,
-                phone: phoneController.text,
-                eposta: emailController.text,
-                password: passwordController.text);
-            // Auth işlemi
-            final authNotifier = ref.read(authProvider.notifier);
-            await authNotifier.signUp(userRegisterRequestModel);
-
-            // Eğer giriş başarılıysa yönlendirme yap
-            if (ref.watch(authProvider) == AuthState.authenticated) {
-              emailController.clear();
-              passwordController.clear();
-              Navigator.pushReplacementNamed(context, RouteNames.home);
-            } else {
-              throw Exception();
-            }
-          } catch (e) {
-            // Hata tipi kontrolü
-          } finally {
-            // Yükleniyor durumunu pasif et
-            ref.read(isLoadingProvider.notifier).state = false;
-          }
-        }
-      },
+      onPressed: ref.watch(isLoadingProvider)
+          ? null
+          : () async {
+              if (formKey.currentState!.validate()) {
+                signUp(context, ref);
+              }
+            },
       style: ElevatedButton.styleFrom(
         elevation: 5,
         backgroundColor: context.colorScheme.primary,
@@ -243,7 +214,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             MediaQuerySize(context).percent12Width),
         shape: const StadiumBorder(),
       ),
-      child: const Text(TrStrings.signUp),
+      child: ref.watch(isLoadingProvider)
+          ? const CircularProgressIndicator(
+              color: Colors.white,
+              strokeWidth: 2,
+            )
+          : const Text(TrStrings.signUp),
     );
   }
 

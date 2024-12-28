@@ -19,7 +19,11 @@ void setupLocator() {
       () => AuthApiServiceImpl(locator<Dio>()));
   //Dio
   locator.registerLazySingleton<Dio>(() {
-    final dio = Dio();
+    final dio = Dio(BaseOptions(
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    ));
     return dio;
   });
   //ILocaleStorageService
