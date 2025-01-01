@@ -1,24 +1,53 @@
+import 'dart:math';
+
 import 'package:barcode_system_app/core/common_widgets/custom_app_bar.dart';
 import 'package:barcode_system_app/core/common_widgets/custom_text_form_field.dart';
 import 'package:barcode_system_app/core/constants/border_radius/border_radius.dart';
 import 'package:barcode_system_app/core/constants/media_query_sizes/media_query_size.dart';
 import 'package:barcode_system_app/core/constants/paddings/paddings.dart';
+import 'package:barcode_system_app/core/exceptions/error_handler.dart';
 import 'package:barcode_system_app/core/extensions/build_context_extension.dart';
+import 'package:barcode_system_app/core/extensions/snack_bar_extension.dart';
 import 'package:barcode_system_app/core/mixins/app_update_product_screen_mixin.dart';
+import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/core/theme/color_scheme.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/data/models/product_add_update_model.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/state_management/provider/all_product_provider.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/state_management/provider/product_state_manager.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/widgets/product_group_dropdown_button.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/widgets/product_unit_dropdown_button.dart';
+import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddUpdateProductScreen extends StatefulWidget {
+class AddUpdateProductScreen extends ConsumerStatefulWidget {
   @override
-  State<AddUpdateProductScreen> createState() => _AddUpdateProductScreenState();
+  ConsumerState<AddUpdateProductScreen> createState() =>
+      _AddUpdateProductScreenState();
 }
 
-class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
+class _AddUpdateProductScreenState extends ConsumerState<AddUpdateProductScreen>
     with AppUpdateProductScreenMixin {
   @override
   void dispose() {
     disposeControllers();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Sayfa ilk kez yüklendiğinde barkodu sıfırla
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(productBarcodeProvider.notifier).state = '';
+    });
+  }
+
+  // Rastgele benzersiz barkod üretme
+  String generateBarcode() {
+    final Random random = Random();
+    return List.generate(11, (index) => random.nextInt(10))
+        .join(); // 12 haneli sayı
   }
 
   @override
@@ -60,7 +89,9 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
         height: MediaQuerySize(context).percent6Height,
         width: MediaQuerySize(context).percent15Height,
         child: ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, RouteNames.barcodeScree);
+          },
           label: Text('Tara',
               style: context.textTheme.bodyMedium?.copyWith(
                 color: context.colorScheme.onPrimary,
@@ -90,25 +121,26 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
               children: [
                 productSalePriceTextFormField(),
                 SizedBox(width: MediaQuerySize(context).percent1Width),
-                productPurchasePriceTextFormField(),
+                productSellPriceTextFormField(),
               ],
             ),
             SizedBox(height: MediaQuerySize(context).percent1Height),
             Row(
               children: [
-                productProfitRatioTextFormField(),
-                SizedBox(width: MediaQuerySize(context).percent1Width),
                 productKdvRaitoTextFormField(),
+                SizedBox(width: MediaQuerySize(context).percent1Width),
+                ProductGroupDropdownWidget(),
               ],
             ),
             SizedBox(height: MediaQuerySize(context).percent1Height),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                stockIncreaseAndDecreaseButton(context),
-                productGroupDropdownButton(context),
+                amountIncreaseAndDecreaseButton(context),
+                ProductUnitDropdownButton(),
               ],
             ),
+            SizedBox(height: MediaQuerySize(context).percent1Height),
             SizedBox(height: MediaQuerySize(context).percent1Height),
             productDetailsTextFormField(),
             SizedBox(height: MediaQuerySize(context).percent2Height),
@@ -140,15 +172,68 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
           ),
         ),
         ElevatedButton.icon(
-          onPressed: () {
-            // Kaydet işlevi
-          },
-          icon: Icon(Icons.save, color: context.colorScheme.onPrimary),
-          label: Text(
-            'Kaydet',
-            style: context.textTheme.bodyMedium
-                ?.copyWith(color: context.colorScheme.onPrimary),
-          ),
+          onPressed: ref.watch(productProvider) == ProductState.loading
+              ? null
+              : () async {
+                  try {
+                    var barcode = ref.watch(productBarcodeProvider);
+                    var user =
+                        await ref.watch(authProvider.notifier).getCurrentUser();
+                    var userName = user?.name ?? '';
+                    var userSurname = user?.surname ?? '';
+                    var productModel = AddUpdateProductModel(
+                      barkod: barcode,
+                      productName: productNameController.text,
+                      satisFiyati: double.tryParse(sellPriceController.text),
+                      alisFiyati: double.tryParse(purchasePriceController.text),
+                      kdvOrani: int.tryParse(kdvRatioController.text),
+                      productGrup: ref.watch(selectedGroupProvider),
+                      birim: ref.watch(selectedUnitProvider),
+                      miktar: ref.watch(productAmountProvider),
+                      kullanici: '$userName $userSurname',
+                      tarih: DateTime.now(),
+                      kdvTutari:
+                          (double.tryParse(kdvRatioController.text) ?? 0.0) *
+                              (double.tryParse(amountController.text) ?? 0.0),
+                      aciklama: productDetailsController.text,
+                    );
+                    // Auth işlemi
+                    final productNotifier = ref.read(productProvider.notifier);
+                    await productNotifier.addProduct(productModel);
+
+                    // Eğer giriş başarılıysa yönlendirme yap
+                    if (ref.watch(productProvider) == ProductState.success) {
+                      ref.read(productBarcodeProvider.notifier).state = '';
+                      productNameController.clear();
+                      purchasePriceController.clear();
+                      sellPriceController.clear();
+                      kdvRatioController.clear();
+                      productDetailsController.clear();
+                      amountController.clear();
+                      context
+                          .showSnackBar('Ürün başarılı bir şekilde kaydedildi');
+                    } else {
+                      throw Exception();
+                    }
+                  } catch (e) {
+                    print('UI sayfasına bak');
+                    context.showSnackBar(
+                        ErrorHandler.handleException(e).toString());
+                    print(e.toString());
+                  }
+                },
+          icon: ref.watch(productProvider) == ProductState.loading
+              ? null
+              : Icon(Icons.save, color: context.colorScheme.onPrimary),
+          label: ref.watch(productProvider) == ProductState.loading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  'Kaydet',
+                  style: context.textTheme.bodyMedium
+                      ?.copyWith(color: context.colorScheme.onPrimary),
+                ),
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColorScheme.lightColorScheme.success,
             elevation: 4,
@@ -169,42 +254,55 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
         controller: productDetailsController);
   }
 
-  Padding productGroupDropdownButton(BuildContext context) {
-    return Padding(
-      padding: AppPaddings.horizontalSimetricDefaultPadding,
-      child: DropdownButton<String>(
-        value: 'Grupsuz ürün',
-        items: ['Grupsuz ürün', 'Grup 1', 'Grup 2']
-            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-            .toList(),
-        onChanged: (value) {
-          // Dropdown işlevi
-        },
-        elevation: 4,
-        menuMaxHeight: MediaQuerySize(context).percent50Height,
-        style: context.textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
-        dropdownColor: context.colorScheme.secondary,
-        borderRadius: AppBorderRadius.normalBorderRadius,
-        menuWidth: MediaQuerySize(context).percent35Width,
-      ),
-    );
-  }
-
-  Row stockIncreaseAndDecreaseButton(BuildContext context) {
+  Widget amountIncreaseAndDecreaseButton(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
           onPressed: () {
-            // Stok azalt
+            final currentAmount =
+                ref.read(productAmountProvider.notifier).state;
+            if (currentAmount > 0) {
+              ref.read(productAmountProvider.notifier).state =
+                  currentAmount - 1;
+              double updateAmount = currentAmount - 1;
+              amountController.text =
+                  updateAmount >= 0 ? updateAmount.toString() : '0';
+            } else {
+              context.showSnackBar('Miktar 0\'dan küçük olamaz');
+            }
           },
           icon: Icon(Icons.remove_circle, color: context.colorScheme.error),
         ),
-        Text('Stok'),
+        SizedBox(
+          width: MediaQuerySize(context).percent20Width, // Genişlik belirleyin
+          child: CustomTextFormField(
+            labelText: 'Miktar',
+            hintText: 'Miktar',
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+            border: InputBorder.none,
+            filled: false,
+            controller: amountController,
+            onChanged: (value) {
+              final newValue = double.tryParse(value) ?? 0;
+              if (newValue < 0) {
+                context.showSnackBar('Miktar 0\'dan küçük olamaz');
+                amountController.text = '0'; // Negatif değer girişini sıfırla
+                ref.read(productAmountProvider.notifier).state = 0;
+              } else {
+                // Geçerli değeri güncelle
+                ref.read(productAmountProvider.notifier).state = newValue;
+              }
+            },
+          ),
+        ),
         IconButton(
           onPressed: () {
-            // Stok artır
+            final currentAmount =
+                ref.read(productAmountProvider.notifier).state;
+            ref.read(productAmountProvider.notifier).state = currentAmount + 1;
+            amountController.text = (currentAmount + 1).toString();
           },
           icon: Icon(Icons.add_circle,
               color: CustomColorScheme.lightColorScheme.success),
@@ -226,20 +324,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
     );
   }
 
-  Expanded productProfitRatioTextFormField() {
-    return Expanded(
-      child: CustomTextFormField(
-          labelText: 'Kâr oranı',
-          hintText: 'kâr oranı',
-          filled: false,
-          border: InputBorder.none,
-          keyboardType: TextInputType.number,
-          textInputAction: TextInputAction.next,
-          controller: profitRatioController),
-    );
-  }
-
-  Expanded productPurchasePriceTextFormField() {
+  Expanded productSellPriceTextFormField() {
     return Expanded(
       child: CustomTextFormField(
           labelText: 'Alış fiyatı',
@@ -248,7 +333,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
           filled: false,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-          controller: purchasePriceController),
+          controller: sellPriceController),
     );
   }
 
@@ -261,7 +346,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
           border: InputBorder.none,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-          controller: salePriceController),
+          controller: purchasePriceController),
     );
   }
 
@@ -288,7 +373,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
             ),
           ),
           Text(
-            " 12458789564",
+            ref.watch(productBarcodeProvider),
             style: context.textTheme.bodyLarge?.copyWith(
               color: context.colorScheme.onSurface,
             ),
@@ -356,7 +441,6 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
         children: [
           barkodCustomTextFormField(),
           bringBarcodeButton(context),
-          //SizedBox(width: 8),
           produceNewBarcode(context),
         ],
       ),
@@ -367,7 +451,9 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
     return SizedBox(
       width: MediaQuerySize(context).percent35Width,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          ref.read(productBarcodeProvider.notifier).state = generateBarcode();
+        },
         child: Text(
           'Yeni barkod',
           maxLines: 1,
@@ -386,9 +472,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen>
     return SizedBox(
       width: MediaQuerySize(context).percent25Width,
       child: ElevatedButton.icon(
-        onPressed: () {
-          // Getir butonu işlevi
-        },
+        onPressed: () {},
         icon: Icon(
           Icons.search,
           color: context.colorScheme.onPrimary,

@@ -1,5 +1,6 @@
 import 'package:barcode_system_app/core/routes/route_names.dart';
 import 'package:barcode_system_app/features/addUpdateProduct/presentation/pages/add_update_product_screen.dart';
+import 'package:barcode_system_app/features/addUpdateProduct/presentation/widgets/barcode_scanner.dart';
 import 'package:barcode_system_app/features/auth/presentation/pages/forget_password_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:barcode_system_app/features/auth/presentation/pages/register_screen.dart';
@@ -32,6 +33,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => AddUpdateProductScreen());
       case RouteNames.product:
         return MaterialPageRoute(builder: (_) => ProductsScreen());
+      case RouteNames.barcodeScree:
+        return MaterialPageRoute(builder: (_) => BarcodeScannerScreen());
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }

@@ -1,5 +1,5 @@
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_request_model.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_request_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_model.dart';
 import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,6 +59,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
     } catch (e) {
       state = AuthState.unauthenticated;
+      rethrow; // Diğer tüm hataları ilet
+    }
+  }
+
+  // Kullanıcıyı getirme
+  Future<UserRegisterModel?> getCurrentUser() async {
+    try {
+      return await _repository.getCurrentUser();
+    } catch (e) {
       rethrow; // Diğer tüm hataları ilet
     }
   }

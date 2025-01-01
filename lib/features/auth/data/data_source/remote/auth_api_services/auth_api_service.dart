@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:barcode_system_app/core/constants/urls/urls.dart';
 import 'package:barcode_system_app/features/auth/data/data_source/remote/auth_api_services/abstract_auth_api_service.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_request_model.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_request_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_model.dart';
 import 'package:dio/dio.dart';
 
 class AuthApiServiceImpl extends IAuthApiService {

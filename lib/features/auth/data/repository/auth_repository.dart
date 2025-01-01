@@ -1,7 +1,7 @@
 import 'package:barcode_system_app/features/auth/data/data_source/local/auth_local_services/abstract_local_service.dart';
 import 'package:barcode_system_app/features/auth/data/data_source/remote/auth_api_services/abstract_auth_api_service.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_request_model.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_request_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_login_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_model.dart';
 import 'package:barcode_system_app/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl extends IAuthRepository {
@@ -52,8 +52,19 @@ class AuthRepositoryImpl extends IAuthRepository {
       bool result = await _authApiService.signUp(userRegisterModel);
       if (result) {
         await _localStorageService.setLoggedIn(result);
+        await _localStorageService.setUser(userRegisterModel);
       }
       return result; // API'den gelen sonucu geri döndürüyoruz
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserRegisterModel?> getCurrentUser() async {
+    try {
+      final user = await _localStorageService.getUser();
+      return user;
     } catch (e) {
       rethrow;
     }

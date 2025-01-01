@@ -9,4 +9,5 @@ class RouteNames {
   static const String makeSale = '/makeSale';
   static const String addUpdateProduct = '/addUpdateProduct';
   static const String product = '/product';
+  static const String barcodeScree = '/barcodeScreen';
 }

@@ -1,7 +1,7 @@
 import 'package:barcode_system_app/core/exceptions/error_handler.dart';
 import 'package:barcode_system_app/core/extensions/snack_bar_extension.dart';
 import 'package:barcode_system_app/core/routes/route_names.dart';
-import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_request_model.dart';
+import 'package:barcode_system_app/features/auth/data/models/auth_models/user_register_model.dart';
 import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_manager.dart';
 import 'package:barcode_system_app/features/auth/presentation/state_management/provider/auth_state_provider.dart';
 import 'package:flutter/material.dart';

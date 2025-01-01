@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Kamera İzni -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Mevcut kod -->
     <application
         android:label="barcode_system_app"
         android:name="${applicationName}"

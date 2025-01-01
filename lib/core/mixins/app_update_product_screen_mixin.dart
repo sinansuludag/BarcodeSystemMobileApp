@@ -4,18 +4,20 @@ mixin AppUpdateProductScreenMixin {
   final formKey = GlobalKey<FormState>();
   final barkodController = TextEditingController();
   final productNameController = TextEditingController();
-  final salePriceController = TextEditingController();
   final purchasePriceController = TextEditingController();
-  final profitRatioController = TextEditingController();
+  final sellPriceController = TextEditingController();
   final kdvRatioController = TextEditingController();
   final productDetailsController = TextEditingController();
+  final kdvPriceController = TextEditingController();
+  final amountController = TextEditingController();
 
   void disposeControllers() {
+    amountController.dispose();
+    kdvPriceController.dispose();
     barkodController.dispose();
     productNameController.dispose();
-    salePriceController.dispose();
     purchasePriceController.dispose();
-    profitRatioController.dispose();
+    sellPriceController.dispose();
     kdvRatioController.dispose();
     productDetailsController.dispose();
   }

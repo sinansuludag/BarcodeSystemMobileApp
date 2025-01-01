@@ -16,6 +16,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputAction textInputAction;
   final bool isPassword;
   final TextEditingController controller;
+  final void Function(String)? onChanged; // Yeni onChanged parametresi
 
   const CustomTextFormField({
     Key? key,
@@ -32,6 +33,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.textInputAction,
     required this.controller,
     this.isPassword = false,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -89,6 +91,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       maxLines: widget.maxLines ?? 1,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
+      onChanged:
+          widget.onChanged, // Yeni onChanged fonksiyonu burada bağlanıyor
     );
   }
 }
